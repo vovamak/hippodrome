@@ -1,12 +1,16 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.MockedStatic;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.Mockito.mockStatic;
 
 class HorseTest {
     private static Stream<String> emptyStrings() {
@@ -96,6 +100,34 @@ class HorseTest {
         double result = horseNoDistance.getDistance();
         assertEquals(0, result);
     }
+    @Test
+    public void testMove() {
+        // Проверяем, что метод Horse.move() вызывает внутри метод getRandomDouble с параметрами 0.2 и 0.9;
+        try (MockedStatic<Horse> theMock = mockStatic(Horse.class)) {
+            horseWithDistance.move();
+            theMock.verify(() -> Horse.getRandomDouble(0.2, 0.9));
+        }
+    }
+    @ParameterizedTest
+    @CsvSource({
+            "1.0, 2.0, 0.5, 2.0",
+            "2.0, 3.0, 0.8, 4.4",
+            "0.0 ,4.0, 0.3, 1.2"
+    })
+    public void testMove(double initialDistance, double speed, double randomValue, double expectedDistance) {
+        Horse myHorse =new Horse("Horse test",speed,initialDistance);
+        try (var mock = mockStatic(Horse.class)) {
+            mock.when(() -> Horse.getRandomDouble(anyDouble(), anyDouble())).thenReturn(randomValue);
+            myHorse.move();
+            assertEquals(expectedDistance, myHorse.getDistance());
+        }
+
+
+    }
+
+
+
+
 
 
 
