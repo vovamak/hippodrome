@@ -115,7 +115,7 @@ class HorseTest {
             "0.0 ,4.0, 0.3, 1.2"
     })
     public void testMove(double initialDistance, double speed, double randomValue, double expectedDistance) {
-        //Проверяем, что метод присваивает дистанции значение высчитанное по формуле: distance + speed * getRandomDouble(0.2, 0.9).
+        //Проверяем, что метод Horse.move() присваивает дистанции значение высчитанное по формуле: distance + speed * getRandomDouble(0.2, 0.9).
         Horse myHorse =new Horse("Horse test",speed,initialDistance);
         try (var mock = mockStatic(Horse.class)) {
             mock.when(() -> Horse.getRandomDouble(anyDouble(), anyDouble())).thenReturn(randomValue);
