@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
-
+@ExtendWith(MockitoExtension.class)
 class HippodromeTest {
     @Test
     public void testConstructorThrowsException() {
@@ -19,23 +21,18 @@ class HippodromeTest {
         assertEquals("Horses cannot be empty.", emptyException.getMessage());
     }
     private List<Horse> list30Horses;
-    private List<Horse> listMockHorses;
     private List<Horse> ListMaxDistanceHorse;
     private Hippodrome hippodrome;
 
     @BeforeEach
     public void setUpTestHorsesList() {
         list30Horses =  new ArrayList<>();
-        listMockHorses =  new ArrayList<>();
+
         // Создаем 30 разных лошадей для выполенения теста метода getHorses
         for (int i = 1; i <= 30; i++) {
             list30Horses.add(new Horse("Horse " + i, i * 0.3, i * 0.25));
         }
-        // Создаем 50 mock лошадей для выполенения теста метода move
-        for (int i = 1; i <= 50; i++) {
-            Horse mockHorse = Mockito.mock(Horse.class);
-            listMockHorses.add(mockHorse);
-        }
+
         // Создаем 3 лошади для выполенения теста метода getWinner
         ListMaxDistanceHorse = new ArrayList<>();
         ListMaxDistanceHorse.add(new Horse("Horse A", 2.6, 2.7));
@@ -55,6 +52,12 @@ class HippodromeTest {
 
     @Test
     void moveTest() {
+        // Создаем 50 mock лошадей для выполенения теста метода move
+        List<Horse> listMockHorses = new ArrayList<>();
+        for (int i = 1; i <= 50; i++) {
+            Horse mockHorse = Mockito.mock(Horse.class);
+            listMockHorses.add(mockHorse);
+        }
         //Проверяем, что метод move()  вызывает метод move у всех лошадей
         hippodrome = new Hippodrome(listMockHorses);
         hippodrome.move();
