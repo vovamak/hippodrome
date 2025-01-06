@@ -8,11 +8,16 @@
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
                 <SizeBasedTriggeringPolicy size="10MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="7"/>
+            <DefaultRolloverStrategy max="7">
+                <Delete basePath="logs" maxDepth="1">
+                    <IfFileName glob="hippodrome.*.log"/>
+                    <IfLastModified age="7d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Root level="info">
+        <Root level="debug">
             <AppenderRef ref="RollingFile"/>
         </Root>
     </Loggers>

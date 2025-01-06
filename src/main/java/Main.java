@@ -2,6 +2,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
@@ -9,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         List<Horse> horses = List.of(
-                new Horse("Bucephalus", 2.4),
+                new Horse("Bucephalus", 2.4,5),
                 new Horse("Ace of Spades", 2.5),
                 new Horse("Zephyr", 2.6),
                 new Horse("Blaze", 2.7),
@@ -24,7 +25,7 @@ public class Main {
         for (int i = 0; i < 100; i++) {
             hippodrome.move();
             watch(hippodrome);
-          //  TimeUnit.MILLISECONDS.sleep(200);
+            TimeUnit.MILLISECONDS.sleep(200);
         }
 
         String winnerName = hippodrome.getWinner().getName();
